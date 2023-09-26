@@ -39,7 +39,7 @@ $data = [
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>UPI QR Code</title>
-    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .form-label {
             font-size: 14px;
@@ -53,9 +53,10 @@ $data = [
             height: 2.5rem;
         }
 
-        #qr img {
+     /*    #qr img {
+            display: block;
             margin: auto;
-        }
+        } */
     </style>
 </head>
 
@@ -106,6 +107,7 @@ $data = [
                         <button class="btn btn-primary download-qr" type="button">Download QR Code</button>
                     </div>
                     <a href="#" class="link-primary link">Open Link On Phone </a><span class="text-muted">(Requires UPI app)</span>
+                    <a href="#" class="copy" target="_blank"><img src="assets/img/copy.png" style="width: 32px;"></a>
                     <!-- <br><a href="#" class="link-primary link1">Open Link On Phone </a><span class="text-muted">(Requires UPI app)</span> -->
                 </div>
                 <div class="col-md-6 px-3">
@@ -113,30 +115,32 @@ $data = [
                         <div class="mt-3">
                             <p class="text-center merchant_name fw-bolder text-dark fs-4 text-uppercase lh-md py-1 bg-light">merchant name</p>
                         </div>
-                        <div id="qr" alt=""></div>
+                        <div id="qr" class="mt-4 d-flex justify-content-center" alt=""></div>
                         <p class="text-center mt-3 upi_id">merchant@upi</p>
                         <p class="text-center mt-3 fw-bolder fs-5">Scan and pay with any BHIM UPI app</p>
                         <div class="d-flex justify-content-center mt-4" style="column-gap: 1.5rem;">
-                            <img src="bhim.svg" alt="BHIM" class="h-10">
-                            <img src="upi.svg" alt="UPI" class="h-10">
+                            <img src="assets/img/bhim.svg" alt="BHIM" class="h-10">
+                            <img src="assets/img/upi.svg" alt="UPI" class="h-10">
                         </div>
                         <div class="d-flex justify-content-center mt-4" style="column-gap: 1rem;">
-                            <img src="g-pay.svg" alt="Google Pay" class="h-6">
-                            <img src="phonepe.svg" alt="PhonePe" class="h-6">
-                            <img src="paytm.svg" alt="Paytm" class="h-6">
-                            <img src="amazonpay.svg" alt="Amazon Pay" class="h-6">
+                            <img src="assets/img/g-pay.svg" alt="Google Pay" class="h-6">
+                            <img src="assets/img/phonepe.svg" alt="PhonePe" class="h-6">
+                            <img src="assets/img/paytm.svg" alt="Paytm" class="h-6">
+                            <img src="assets/img/amazonpay.svg" alt="Amazon Pay" class="h-6">
                             <!-- <img src="https://www.kindpng.com/picc/m/622-6221288_hdfc-payzapp-hd-png-download.png" alt="Amazon Pay" class="h-6"> -->
-                            <img src="payzapp.svg" alt="PayZ App" class="h-6">
+                            <img src="assets/img/payzapp.svg" alt="PayZ App" class="h-6">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="jquery-3.7.1.min.js"></script>
-    <script src="bootstrap.bundle.min.js"></script>
-    <script src="dom-to-image.min.js"></script>
-    <script src="qrcode.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/dom-to-image.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
+    <script src="assets/js/sweetalert2.js"></script>
+    <script src="assets/js/qrcode.js"></script>
     <script>
         $(document).ready(function() {
             var qrcode = new QRCode(document.getElementById("qr"), {
@@ -147,23 +151,12 @@ $data = [
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
-            /* if ($('#merchant_name').val().length > 0) {
-                $('.merchant_name').removeClass('d-none');
-            } else {
-                $('.merchant_name').addClass('d-none');
-            } */
             $('#upi_id').keyup(function(e) {
                 $('.upi_id').text($(this).val());
                 if ($(this).val().length == 0) {
                     $('.upi_id').text("merchant@upi");
                 }
             });
-            /* $('#merchant_name').keyup(function(e) {
-                $('.merchant_name').text($(this).val())
-                if ($(this).val().length == 0) {
-                    $('.merchant_name').text("merchant name");
-                }
-            }) */
 
             $("input[type=text], select").
             on("blur keyup change", function(e) {
@@ -200,11 +193,6 @@ $data = [
                     }
                 }
 
-                /* if ($('#merchant_name').val().length > 0) {
-                    $('.merchant_name').removeClass('d-none');
-                } else {
-                    $('.merchant_name').addClass('d-none');
-                } */
                 createQR();
             });
             $('.download-qr').click(function() {
@@ -213,18 +201,39 @@ $data = [
                         bgcolor: '#fff'
                     })
                     .then(function(dataUrl) {
+                        dataUrl.replace(/^data:image\/png/, "data:application/octet-stream");
                         var link = document.createElement('a');
-                        link.download = 'my-image-name.jpg';
+                        /* link.download = 'upi_'+ (Math.random() + 1).toString(36).substring(7) +'.jpg'; */
+                        link.download = 'upi_'+ new Date().getTime() +'.jpg';
                         link.href = dataUrl;
+                        document.body.appendChild(link);
                         link.click();
+                        document.body.removeChild(link);
                     });
             });
+
+            $('.copy').click(function(e) {
+                e.preventDefault();
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($('.link').attr('href')).select();
+                document.execCommand("copy");
+                $temp.remove();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Copied..!',
+                    text: $('.link').attr('href'),
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                /* alert("Copied..!"); */
+            });
+            createQR();
 
             function createQR() {
                 var link = "upi://pay?pa=" + $('#upi_id').val() + "&pn=" + $('#merchant_name').val() + "&am=" + $('#transaction_amount').val() + "&tn=" + $('#description').val() + "&cu=INR";
                 $('.link').attr('href', encodeURI(link));
                 qrcode.makeCode(link);
-                /* $('.link1').attr('href', (`data:text/html, ` + encodeURIComponent(`<body onload="window.open('`+ link +`', '_self')"></body>`))) */
             }
         });
     </script>
