@@ -2,6 +2,24 @@
 $data = [
     [
         // "name" => "India Post Payments Bank",
+        "merchant_name" => "Sandip Tawhare HDFC Bank - G Pay",
+        "upi_id" => "sandiptawhare18081998-1@okhdfcbank",
+        "notes" => ""
+    ],
+    [
+        // "name" => "India Post Payments Bank",
+        "merchant_name" => "Sandip Tawhare Union Bank - G Pay",
+        "upi_id" => "sandiptawhare18081998-1@okaxis",
+        "notes" => ""
+    ],
+    [
+        // "name" => "India Post Payments Bank",
+        "merchant_name" => "Sandip Tawhare Axis Bank - G Pay",
+        "upi_id" => "sandiptawhare18081998-2@okaxis",
+        "notes" => ""
+    ],
+    [
+        // "name" => "India Post Payments Bank",
         "merchant_name" => "Sandip Tawhare PAYTM",
         "upi_id" => "9527849688@paytm",
         "notes" => ""
