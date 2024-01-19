@@ -37,6 +37,12 @@ $data = [
         "notes" => "IDFC Bank Credit Card Bill"
     ],
     [
+        // "name" => "IDFC Bank Credit Card",
+        "merchant_name" => "Sandip Tawhare IDFC Bank Rupay Credit Card",
+        "upi_id" => "6530181032973731.cc@idfcbank",
+        "notes" => "IDFC Bank Rupay Credit Card Bill"
+    ],
+    [
         // "name" => "Axis Bank Credit Card",
         "merchant_name" => "Sandip Tawhare Axis Bank Credit Card",
         "upi_id" => "CC.9195278496882373@axisbank",
