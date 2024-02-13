@@ -2,54 +2,63 @@
 $data = [
     [
         // "name" => "India Post Payments Bank",
+        "id" => 1,
         "merchant_name" => "Sandip Tawhare HDFC Bank - G Pay",
         "upi_id" => "sandiptawhare18081998-1@okhdfcbank",
         "notes" => ""
     ],
     [
         // "name" => "India Post Payments Bank",
+        "id" => 2,
         "merchant_name" => "Sandip Tawhare Union Bank - G Pay",
         "upi_id" => "sandiptawhare18081998-1@okaxis",
         "notes" => ""
     ],
     [
         // "name" => "India Post Payments Bank",
+        "id" => 3,
         "merchant_name" => "Sandip Tawhare Axis Bank - G Pay",
         "upi_id" => "sandiptawhare18081998-2@okaxis",
         "notes" => ""
     ],
     [
         // "name" => "India Post Payments Bank",
+        "id" => 4,
         "merchant_name" => "Sandip Tawhare PAYTM",
         "upi_id" => "9527849688@paytm",
         "notes" => ""
     ],
     [
         // "name" => "India Post Payments Bank",
+        "id" => 5,
         "merchant_name" => "Sandip Tawhare IPPB",
         "upi_id" => "9527849688@postbank",
         "notes" => ""
     ],
     [
         // "name" => "IDFC Bank Credit Card",
+        "id" => 6,
         "merchant_name" => "Sandip Tawhare IDFC Bank Credit Card",
         "upi_id" => "4405232013574753.cc@idfcbank",
         "notes" => "IDFC Bank Credit Card Bill"
     ],
     [
         // "name" => "IDFC Bank Credit Card",
+        "id" => 7,
         "merchant_name" => "Sandip Tawhare IDFC Bank Rupay Credit Card",
         "upi_id" => "6530181032973731.cc@idfcbank",
         "notes" => "IDFC Bank Rupay Credit Card Bill"
     ],
     [
         // "name" => "Axis Bank Credit Card",
+        "id" => 8,
         "merchant_name" => "Sandip Tawhare Axis Bank Credit Card",
         "upi_id" => "CC.9195278496882373@axisbank",
         "notes" => "Axis Bank Credit Card Bill"
     ],
     [
         // "name" => "V Axis Bank Credit Card",
+        "id" => 9,
         "merchant_name" => "Vaibhav Tawhare Axis Bank Credit Card",
         "upi_id" => "CC.9195611371774610@axisbank",
         "notes" => "Axis Bank Credit Card Bill"
@@ -77,7 +86,7 @@ $data = [
             height: 2.5rem;
         }
 
-     /*    #qr img {
+        /*    #qr img {
             display: block;
             margin: auto;
         } */
@@ -94,9 +103,9 @@ $data = [
                     <div class="mb-2">
                         <label for="merchant_name" class="form-label">Merchant List</label>
                         <select class="form-select form-select-sm mb-2" id="merchant_list" aria-label="Default select example">
-                            <option value="" selected>Select Any Of this</option>
+                            <option value="">Select Any Of this</option>
                             <?php foreach ($data as $key => $value) { ?>
-                                <option data-type='<?= json_encode($value) ?>'><?= $value['merchant_name'] ?></option>
+                                <option data-type='<?= json_encode($value) ?>' data-id="<?= $value['id'] ?>"><?= $value['merchant_name'] ?></option>
                             <?php } ?>
                             <option value="">Others</option>
                         </select>
@@ -132,6 +141,7 @@ $data = [
                     </div>
                     <a href="#" class="link-primary link">Open Link On Phone </a><span class="text-muted">(Requires UPI app)</span>
                     <a href="#" class="copy" target="_blank"><img src="assets/img/copy.png" style="width: 32px;"></a>
+                    <a href="#" class="copy-url" target="_blank"><img src="https://img.icons8.com/?size=32&id=7867&format=png" style="width: 32px;"></a>
                     <!-- <br><a href="#" class="link-primary link1">Open Link On Phone </a><span class="text-muted">(Requires UPI app)</span> -->
                 </div>
                 <div class="col-md-6 px-3">
@@ -181,7 +191,6 @@ $data = [
                     $('.upi_id').text("merchant@upi");
                 }
             });
-
             $("input[type=text], select").
             on("blur keyup change", function(e) {
                 if ($(this).attr('id') == "merchant_list") {
@@ -207,6 +216,7 @@ $data = [
                         $('.link').attr('href', encodeURI(link));
                         qrcode.makeCode(link);
                     }
+
                     return null;
                 }
 
@@ -228,14 +238,13 @@ $data = [
                         dataUrl.replace(/^data:image\/png/, "data:application/octet-stream");
                         var link = document.createElement('a');
                         /* link.download = 'upi_'+ (Math.random() + 1).toString(36).substring(7) +'.jpg'; */
-                        link.download = 'upi_'+ new Date().getTime() +'.jpg';
+                        link.download = 'upi_' + new Date().getTime() + '.jpg';
                         link.href = dataUrl;
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
                     });
             });
-
             $('.copy').click(function(e) {
                 e.preventDefault();
                 var $temp = $("<input>");
@@ -252,12 +261,66 @@ $data = [
                 });
                 /* alert("Copied..!"); */
             });
+            $('.copy-url').click(function(e) {
+                e.preventDefault();
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($('.copy-url').attr('data-href')).select();
+                document.execCommand("copy");
+                $temp.remove();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Copied..!',
+                    text: $('.copy-url').attr('data-href'),
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                /* alert("Copied..!"); */
+            });
             createQR();
-
             function createQR() {
                 var link = "upi://pay?pa=" + $('#upi_id').val() + "&pn=" + $('#merchant_name').val() + "&am=" + $('#transaction_amount').val() + "&tn=" + $('#description').val() + "&cu=INR";
                 $('.link').attr('href', encodeURI(link));
+                var url = new URL(location.origin + location.pathname);
+                if($('#merchant_list').find("option:selected").data('id'))
+                    url.searchParams.append('id', $('#merchant_list').find("option:selected").data('id'));
+
+                if($('#description').val())
+                url.searchParams.append('description', $('#description').val());
+                
+                if($('#transaction_amount').val()){
+                    url.searchParams.append('amount', $('#transaction_amount').val());
+                }
+                
+                $('.copy-url').attr('data-href', url);
                 qrcode.makeCode(link);
+            }
+            if (new URLSearchParams(window.location.search).has('id')) {
+                if (new URLSearchParams(window.location.search).get('id')) {
+                    $('#merchant_list option[data-id='+ new URLSearchParams(window.location.search).get('id') +']').attr('selected','selected');
+                    $('#merchant_list').change();
+                }
+            }
+            if (new URLSearchParams(window.location.search).has('amount')) {
+                if (new URLSearchParams(window.location.search).get('amount')) {
+                    $('#transaction_amount').val(new URLSearchParams(window.location.search).get('amount'));
+                    $('#transaction_amount').change();
+                }
+            }
+            if (new URLSearchParams(window.location.search).has('description')) {
+                if (new URLSearchParams(window.location.search).get('description')) {
+                    $('#description').val(new URLSearchParams(window.location.search).get('description'));
+                    $('#description').change();
+                }
+            }
+            
+            if (new URLSearchParams(window.location.search).has('id') || new URLSearchParams(window.location.search).has('amount') || new URLSearchParams(window.location.search).has('description')){
+                if (confirm('Are you sure to open - ' + $('.link').attr('href'))) {
+                    setTimeout(() => {
+                        var html = '<div class="text-center"><a href="'+ $('.link').attr('href') +'" class="m-5 btn btn-primary btn-lg rounded-0">Open UPI App</a></div>';
+                        $('body').html(html);
+                    }, 500);
+                }
             }
         });
     </script>
