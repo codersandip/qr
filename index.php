@@ -98,7 +98,7 @@ $data = [
         <h3 class="text-center">UPI QR Code</h3>
         <p class="text-center">Create dynamic UPI QR Codes with custom amount. Customer can scan and pay with WhatsApp, Google Pay, Paytm, PhonePe or any BHIM UPI app.</p>
         <div class="d-flex justify-content-center">
-            <div class="row" style="width: 950px;">
+            <div class="row" style="max-width: 950px;">
                 <div class="col-md-6 px-5">
                     <div class="mb-2">
                         <label for="merchant_name" class="form-label">Merchant List</label>
@@ -259,7 +259,6 @@ $data = [
                     showConfirmButton: false,
                     timer: 1500
                 });
-                /* alert("Copied..!"); */
             });
             $('.copy-url').click(function(e) {
                 e.preventDefault();
@@ -275,7 +274,6 @@ $data = [
                     showConfirmButton: false,
                     timer: 1500
                 });
-                /* alert("Copied..!"); */
             });
             createQR();
             function createQR() {
@@ -315,12 +313,38 @@ $data = [
             }
             
             if (new URLSearchParams(window.location.search).has('id') || new URLSearchParams(window.location.search).has('amount') || new URLSearchParams(window.location.search).has('description')){
-                if (confirm('Are you sure to open - ' + $('.link').attr('href'))) {
+                /* if (confirm('Are you sure to open - ' + $('.link').attr('href'))) { */
                     setTimeout(() => {
-                        var html = '<div class="text-center"><a href="'+ $('.link').attr('href') +'" class="m-5 btn btn-primary btn-lg rounded-0">Open UPI App</a></div>';
-                        $('body').html(html);
+                        /* var html = '<div class="text-center"><a href="'+ $('.link').attr('href') +'" class="m-5 btn btn-primary btn-lg rounded-0">Open UPI App</a></div>'; */
+                        var html = '<div class="d-flex justify-content-center">\
+            <div class="row" style="width: 475px;">\
+                <div class="col-md-12 px-5">\
+                    <div class="mb-2">\
+                        <label for="merchant_name_text" class="form-label">Merchant / Payee Name</label>\
+                        <input type="text" class="form-control rounded-0 form-control-sm" readonly id="merchant_name_text" placeholder="Enter your business name here..." value="'+ $('#merchant_name').val() +'">\
+                    </div>\
+                    <div class="mb-2">\
+                        <label for="upi_id_text" class="form-label">UPI ID</label>\
+                        <input type="text" class="form-control rounded-0 form-control-sm" readonly id="upi_id_text" placeholder="Enter your UPI ID here..."value=" '+ $('#upi_id').val() +'">\
+                    </div>\
+                    <div class="mb-2">\
+                        <label for="transaction_amount_text" class="form-label">Transaction Amount</label>\
+                        <input type="text" class="form-control rounded-0 form-control-sm" id="transaction_amount_text" placeholder="Enter transaction amount here..." value="'+ $('#transaction_amount').val() +'">\
+                    </div>\
+                    <div class="mb-2">\
+                        <label for="description_text" class="form-label">Description (Notes)</label>\
+                        <input type="text" class="form-control rounded-0 form-control-sm" id="description_text" placeholder="Enter transaction description here..." value="'+ $('#description').val() +'">\
+                    </div>\
+                    <div class="d-grid gap-2">\
+                        <a href="'+ $('.link').attr('href') +'" class="btn btn-primary rounded-0 d-block w-100">Pay </a><span class="text-muted">(Requires UPI app)</span>\
+                    </div>\
+                </div>\
+                \
+            </div>\
+        </div>';
+                        $('body .container-fluid').html(html);
                     }, 500);
-                }
+                /* } */
             }
         });
     </script>
