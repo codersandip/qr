@@ -61,7 +61,7 @@ $data = [
         "id" => 8,
         "merchant_name" => "Sandip Tawhare Axis Bank IOCL Rupay Credit Card",
         "upi_id" => "CC.9195278496886798@axisbank",
-        "notes" => "Axis Bank Credit Card Bill"
+        "notes" => "Axis Bank IOCL Rupay Credit Card Bill"
     ],
     [
         // "name" => "V Axis Bank Credit Card",
