@@ -19,7 +19,9 @@
             const canvas = document.getElementById('snapshot');
             const context = canvas.getContext('2d');
             navigator.mediaDevices.getUserMedia({
-                video: true
+                video: {
+                    facingMode: 'environment'
+                }
             }).then(function(stream) {
                 console.log(stream);
                 $('#qr-video')[0].srcObject = stream;
