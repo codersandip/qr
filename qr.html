@@ -20,7 +20,7 @@
             const context = canvas.getContext('2d');
             navigator.mediaDevices.getUserMedia({
                 video: {
-                    facingMode: 'environment'
+                    facingMode: "environment"
                 }
             }).then(function(stream) {
                 console.log(stream);
@@ -33,9 +33,9 @@
                 context.drawImage($('#qr-video')[0], 0, 0, canvas.width, canvas.height);
 
                 img.onload = () => {
-                    // canvas.width = img.width;
-                    // canvas.height = img.height;
-                    // context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
                     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
                     console.log(imageData); 
                     const code = jsQR(imageData.data, imageData.width, imageData.height);
