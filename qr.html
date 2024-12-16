@@ -30,6 +30,10 @@
             canvas.width = $('#qr-video').width();
             const img = new Image();
             $('#capture-btn').click(function() {
+                scanQR();
+            });
+
+            function scanQR() {
                 context.drawImage($('#qr-video')[0], 0, 0, canvas.width, canvas.height);
 
                 img.onload = () => {
@@ -37,15 +41,18 @@
                     canvas.height = img.height;
                     context.drawImage(img, 0, 0, canvas.width, canvas.height);
                     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                    console.log(imageData); 
+                    console.log(imageData);
                     const code = jsQR(imageData.data, imageData.width, imageData.height);
                     console.log(code);
-                    alert(code);
-                    
+                    if (code) {
+                        alert(code.data);
+                    } else {
+                        scanQR();
+                    }
+
                 };
                 img.src = canvas.toDataURL('image/png');
-            });
-
+            }
 
 
         });
