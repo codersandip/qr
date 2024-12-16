@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Reader</title>
+</head>
+<body>
+  <h1>QR Code Reader</h1>
+  <input type="file" id="fileInput" accept="image/*">
+  <canvas id="canvas" style="display: none;"></canvas>
+  <p id="result">Result: <span id="qrText">None</span></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+  <script src="qr-reader.js"></script>
+</body>
+</html>
